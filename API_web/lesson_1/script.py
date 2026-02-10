@@ -1,14 +1,14 @@
 import requests
 
 
-URL = 'https://wttr.in/'
-PAYLOAD = {'nTqM': '', 'lang': 'ru'}
-CITIES = ['london', 'svo', 'cherepovets']
+url = 'https://wttr.in/'
+payload = {'nTqM': '', 'lang': 'ru'}
+cities = ['london', 'svo', 'cherepovets']
 
 def main():
-    for city in CITIES:
+    for city in cities:
         try:
-            response = requests.get(f'{URL}{city}', params=PAYLOAD)
+            response = requests.get(f'{url}{city}', params=payload)
             response.raise_for_status()
             print(response.text)
         except requests.exceptions.HTTPError as error:
