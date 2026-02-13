@@ -29,12 +29,13 @@ def shorten_link(token, url):
 
 
 def count_clicks(token, link):
+    shortened_link = urlparse(link).path[1:]
     url_api_method_vk = 'https://api.vk.ru/method/utils.getLinkStats'
     params = {
         'v': '5.199',
     }
     payload = {
-        'key': link,
+        'key': shorten_link,
     }
     headers = {
         'Authorization': f'Bearer {token}',
@@ -53,12 +54,11 @@ def count_clicks(token, link):
 
 
 def is_shorten_link(url):
-    try:
-        response = requests.get(f'https://vk.cc/{url}')
-        response.raise_for_status()
-        return response.ok
-    except requests.exceptions.HTTPError:
-        return False
+    url_parse = urlparse(url)
+    if (url_parse.netloc == 'vk.cc') and (len(url_parse.path) > 1):
+        return True
+    return False
+    
 
 
 def main():
