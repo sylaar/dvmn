@@ -23,10 +23,10 @@ def shorten_link(token, url):
                              data=payload,
                              headers=headers)
     response.raise_for_status()
-    response_json = response.json()
-    if 'error' in response_json:
-        raise ValueError(response_json['error']['error_msg'])
-    return response_json['response']['short_url']
+    response_data = response.json()
+    if 'error' in response_data:
+        raise ValueError(response_data['error']['error_msg'])
+    return response_data['response']['short_url']
 
 
 def count_clicks(token, link):
@@ -47,18 +47,18 @@ def count_clicks(token, link):
                              data=payload,
                              headers=headers)
     response.raise_for_status()
-    response_json = response.json()
-    if 'error' in response_json :
-        raise ValueError(response_json['error']['error_msg'])
-    if not response_json['response']['stats']:
+    response_data = response.json()
+    if 'error' in response_data :
+        raise ValueError(response_data['error']['error_msg'])
+    if not response_data['response']['stats']:
         return 0
-    return response_json['response']['stats'][0]['views']
+    return response_data['response']['stats'][0]['views']
 
 
 def is_shorten_link(token, url):
     try:
         count_clicks(token, url)
-    except Exception:
+    except ValueError:
         return False
     return True
     
